@@ -7,6 +7,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const start = Date.now();
 
+process.env.UV_THREADPOOL_SIZE = 5
+
 function doRequest(){
 https.request('https://www.google.com', res=>{
     res.on('data', ()=>{})
