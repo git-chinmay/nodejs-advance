@@ -1,3 +1,7 @@
 material/
 reference.txt
-s2-enhancing-node-pfmnc/node_modules
+s2-enhancing-node-pfmnc/node_modules/
+s3-advance-node-project/node_modules/
+s3-advance-node-project/client/node_modules/
+s4-redis-caching/node_modules/
+s4-redis-caching/client/node_modules/
