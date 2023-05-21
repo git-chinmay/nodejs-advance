@@ -38,3 +38,26 @@ test('Clicking login starts OAuth flow', async ()=>{
 });
 
 
+test("when sign in shows the logout button", async ()=>{
+    // Take existing usre id from db
+    const id = '6459dc8d06fee61854249f5f'; //copied from mongo comapss
+
+    // Generate fake session obj
+    const Buffer = require(safe-buffer).Buffer;
+    const sessionObject = {
+        passport: {
+            user: id
+        }
+    };
+
+    const sessionString = Buffer.from(
+        JSON.stringify(sessionObject).toString('base64'))
+    
+    // Generate the session sig from fake session
+    const Keygrip = require('keygrip');
+    const keys = require('../config/keys')
+    const keygrip = new Keygrip([keys.cookieKey]);
+    const sig = keygrip.sign('session='+sessionString);
+    console.log(sessionString);
+    console.log(sig);
+});
