@@ -72,4 +72,11 @@ test.only("when sign in shows the logout button", async ()=>{
     await page.setCookie({ name: 'session.sig', value: sig});
     // Refresh the page to load above 
     await page.goto('localhost:3000');
+
+    //wait for the page to oad properly
+    await page.waitFor('a[href="/auth/logout"]');
+
+    // Doing unit testing
+    const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+    expect(text).toEqual('Logout');
 });
