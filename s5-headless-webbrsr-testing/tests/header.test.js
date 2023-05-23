@@ -1,10 +1,14 @@
 /*
-SOmetime due to jest issue the test fails with error like just did not invoked 5000ms and some other
+-> Sometime due to jest issue the test fails with error like just did not invoked 5000ms and some other
 random error.
 Fix: Run the test multiple time. Try to close all other application to give jest enough thread to run..
+
+-> Use test.only() to just run a specific test case in suite
 */
 
 const puppeteer = require('puppeteer');
+const sessionFactory = require('./factories/sessionFactory');
+const userFactory = require('./factories/userFactory');
 
 // test('Adds two numbers', ()=>{
 //     const sum = 1 + 2;
@@ -25,7 +29,7 @@ beforeEach(async ()=>{
 
 //Will run after each test
 afterEach(async ()=>{
-    // await browser.close();
+    await browser.close();
 });
 
 
@@ -44,31 +48,15 @@ test('Clicking login starts OAuth flow', async ()=>{
 });
 
 
-test.only("when sign in shows the logout button", async ()=>{
-    // Take existing usre id from db
-    const id = '6459dc8d06fee61854249f5f'; //copied from mongo comapss
-
-    // Generate fake session obj
-    const Buffer = require('safe-buffer').Buffer;
-    const sessionObject = {
-        passport: {
-            user: id
-        }
-    };
-
-    const sessionString = Buffer.from(
-        JSON.stringify(sessionObject).toString('base64'))
+test("when sign in shows the logout button", async ()=>{
     
-    // Generate the session sig with keygrip
-    const Keygrip = require('keygrip');
-    const keys = require('../config/keys')
-    const keygrip = new Keygrip([keys.cookieKey]);
-    const sig = keygrip.sign('session='+sessionString);
+    const user = await userFactory(); // Its returning a promise
+    const {session, sig} = sessionFactory(user);
     // console.log(sessionString);
     // console.log(sig);
 
     //set the cookie
-    await page.setCookie({ name: 'session', value: sessionString});
+    await page.setCookie({ name: 'session', value: session});
     await page.setCookie({ name: 'session.sig', value: sig});
     // Refresh the page to load above 
     await page.goto('localhost:3000');
