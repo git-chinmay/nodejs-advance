@@ -6,9 +6,10 @@ Fix: Run the test multiple time. Try to close all other application to give jest
 -> Use test.only() to just run a specific test case in suite
 */
 
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
 const sessionFactory = require('./factories/sessionFactory');
 const userFactory = require('./factories/userFactory');
+const Page = require("./helpers/page");
 
 // test('Adds two numbers', ()=>{
 //     const sum = 1 + 2;
@@ -16,20 +17,24 @@ const userFactory = require('./factories/userFactory');
 // });
 
 
-var browser, page;
+var page;
 //Will run before each test
 beforeEach(async ()=>{
-    browser = await puppeteer.launch({
-        headless: false
-    });
-    page = await browser.newPage();
+    // browser = await puppeteer.launch({
+    //     headless: false
+    // });
+    // page = await browser.newPage();
+    
+    
     // Visiting the blogpost page
+    page = await Page.build();
     await page.goto('localhost:3000');
 })
 
 //Will run after each test
 afterEach(async ()=>{
-    await browser.close();
+    //await browser.close();
+    await page.close();
 });
 
 
