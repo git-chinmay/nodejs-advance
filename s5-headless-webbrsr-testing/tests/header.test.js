@@ -7,8 +7,8 @@ Fix: Run the test multiple time. Try to close all other application to give jest
 */
 
 //const puppeteer = require('puppeteer');
-const sessionFactory = require('./factories/sessionFactory');
-const userFactory = require('./factories/userFactory');
+// const sessionFactory = require('./factories/sessionFactory');
+// const userFactory = require('./factories/userFactory');
 const Page = require("./helpers/page");
 
 // test('Adds two numbers', ()=>{
@@ -25,7 +25,7 @@ beforeEach(async ()=>{
     // });
     // page = await browser.newPage();
     
-    
+
     // Visiting the blogpost page
     page = await Page.build();
     await page.goto('localhost:3000');
@@ -40,7 +40,8 @@ afterEach(async ()=>{
 
 test('The header has the correct text.', async ()=>{
     //Extacting the blog title
-    const text = await page.$eval('a.brand-logo', el => el.innerHTML);
+    //const text = await page.$eval('a.brand-logo', el => el.innerHTML);
+    const text = await page.getContentsOf('a.brand-logo');
     expect(text).toEqual('Blogster');
 });
 
@@ -55,21 +56,23 @@ test('Clicking login starts OAuth flow', async ()=>{
 
 test("when sign in shows the logout button", async ()=>{
     
-    const user = await userFactory(); // Its returning a promise
-    const {session, sig} = sessionFactory(user);
-    // console.log(sessionString);
-    // console.log(sig);
+    // const user = await userFactory(); // Its returning a promise
+    // const {session, sig} = sessionFactory(user);
+    // // console.log(sessionString);
+    // // console.log(sig);
 
-    //set the cookie
-    await page.setCookie({ name: 'session', value: session});
-    await page.setCookie({ name: 'session.sig', value: sig});
-    // Refresh the page to load above 
-    await page.goto('localhost:3000');
+    // //set the cookie
+    // await page.setCookie({ name: 'session', value: session});
+    // await page.setCookie({ name: 'session.sig', value: sig});
+    // // Refresh the page to load above 
+    // await page.goto('localhost:3000');
 
-    //wait for the page to oad properly
-    await page.waitFor('a[href="/auth/logout"]');
+    // //wait for the page to oad properly
+    // await page.waitFor('a[href="/auth/logout"]');
 
-    // Doing unit testing
-    const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+    // // Doing unit testing
+    // const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+
+    await page.login();
     expect(text).toEqual('Logout');
 });
