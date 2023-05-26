@@ -5,12 +5,12 @@ const userFactory = require('../factories/userFactory');
 class CustomPage {
     static async build(){
         const browser = await puppeteer.launch({
-            headless: false
+            headless: false //fase will create GUI
         });
         const page = await browser.newPage();
         const cutsompage = new CustomPage(page)
 
-        return new Proxy(CustomPage, {
+        return new Proxy(cutsompage, {
             get: function(target, property){
                 return target[property]  || browser[property] || page[property]
             }
@@ -29,7 +29,7 @@ class CustomPage {
         await this.page.setCookie({ name: 'session', value: session});
         await this.page.setCookie({ name: 'session.sig', value: sig});
         // Refresh the page to load above 
-        await this.page.goto('localhost:3000');
+        await this.page.goto('localhost:3000/blogs');
     
         //wait for the page to oad properly
         await this.page.waitFor('a[href="/auth/logout"]');
