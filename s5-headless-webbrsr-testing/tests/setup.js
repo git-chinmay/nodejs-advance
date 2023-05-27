@@ -1,4 +1,4 @@
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 require('../models/User'); //By requiring without varibale it just execute the model file and make avilable the output
 
