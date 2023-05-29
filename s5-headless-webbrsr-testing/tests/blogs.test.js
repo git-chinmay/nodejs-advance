@@ -70,3 +70,52 @@ describe("when logged in", async ()=>{
         });
     })
 });
+
+
+describe("When not logged in", async () => {
+    test("User can not create blog post.", async ()=>{
+        
+        const result = await page.evaluate(
+            () => {
+
+                return fetch("/api/blogs", {
+                    method: "POST",
+                    credentials: 'same-origin', //Adding any cookies avilable here bcz we are not gonna login to blog, we want to access without loggining in and we also want make api call as original as possible which has a cookie so use any cookies.
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: 'My Title',
+                        content: 'My Content'
+                    })
+                }).then(res=>res.json());
+
+            }
+        );
+
+        console.log(result);
+        expect(result).toEqual({error:'You must log in!'});
+
+    });
+
+    test("User can not get a list of blog posts.", async ()=>{
+        const result = await page.evaluate(
+
+            () => {
+            return fetch("/api/blogs", {
+                method: "GET",
+                credentials: 'same-origin', //Adding any cookies avilable here bcz we are not gonna login to blog, we want to access without loggining in and we also want make api call as original as possible which has a cookie so use any cookies.
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            }).then(res=>res.json());
+
+        });
+
+        expect(result).toEqual({error:"You must log in!"});
+    });
+});
+
+
+
+
