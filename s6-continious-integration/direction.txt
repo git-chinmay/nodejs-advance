@@ -1,0 +1,5 @@
+Look into the below repositories
+1 - TRAVIS          -   https://github.com/git-chinmay/blogster-node-travis-ci
+2 - GITHUB ACTION   -   https://github.com/git-chinmay/blogster-app-node-github-action
+
+For theory refer the OneNote
