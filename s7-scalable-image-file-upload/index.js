@@ -28,8 +28,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// The require portion return a function and (app) immediatealy invoke it passing 'app' as parameter
 require('./routes/authRoutes')(app);
 require('./routes/blogRoutes')(app);
+require('./routes/uploadRoutes')(app); 
 
 if (['production'].includes(process.env.NODE_ENV)) {
   app.use(express.static('client/build'));
