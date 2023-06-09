@@ -7,3 +7,6 @@ s4-redis-caching/node_modules/
 s4-redis-caching/client/node_modules/
 s5-headless-webbrsr-testing/node_modules/
 s5-headless-webbrsr-testing/client/node_modules/
+s7-scalable-image-file-upload/node_modules/
+s7-scalable-image-file-upload/client/node_modules/
+s7-scalable-image-file-upload/config/dev.js
